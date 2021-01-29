@@ -10,6 +10,7 @@ __author_email__ = 'click-loglevel@varonathe.org'
 __license__      = 'MIT'
 __url__          = 'https://github.com/jwodder/click-loglevel'
 
+import logging
 import click
 
 class LogLevelType(click.ParamType):

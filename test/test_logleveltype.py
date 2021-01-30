@@ -54,3 +54,8 @@ def test_logleveltype_no_default():
     r = CliRunner().invoke(lvlcmd_nodefault)
     assert r.exit_code == 0, r.output
     assert r.output == "None\n"
+
+def test_logleveltype_help():
+    r = CliRunner().invoke(lvlcmd, ["--help"])
+    assert r.exit_code == 0, r.output
+    assert "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]" in r.output

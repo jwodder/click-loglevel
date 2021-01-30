@@ -18,8 +18,6 @@ class LogLevelType(click.ParamType):
     LEVELS = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
     def convert(self, value, param, ctx):
-        if value is None:
-            return value
         try:
             return int(value)
         except ValueError:

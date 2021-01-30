@@ -9,6 +9,11 @@ from   click_loglevel import LogLevelType
 def lvlcmd(log_level):
     click.echo(repr(log_level))
 
+@click.command()
+@click.option('-l', '--log-level', type=LogLevelType())
+def lvlcmd_nodefault(log_level):
+    click.echo(repr(log_level))
+
 @pytest.mark.parametrize('loglevel,value', [
     ("CRITICAL", logging.CRITICAL),
     ("critical", logging.CRITICAL),
@@ -44,3 +49,8 @@ def test_logleveltype_default():
     r = CliRunner().invoke(lvlcmd)
     assert r.exit_code == 0, r.output
     assert r.output == str(logging.INFO) + "\n"
+
+def test_logleveltype_no_default():
+    r = CliRunner().invoke(lvlcmd_nodefault)
+    assert r.exit_code == 0, r.output
+    assert r.output == "None\n"

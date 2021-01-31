@@ -39,6 +39,8 @@ def lvlcmd_nodefault(log_level):
     ("notset", logging.NOTSET),
     ("NoTsEt", logging.NOTSET),
     (logging.NOTSET, logging.NOTSET),
+    (42, 42),
+    (" 42 ", 42),
 ])
 def test_logleveltype(loglevel, value):
     r = CliRunner().invoke(lvlcmd, ["-l", str(loglevel)])
@@ -59,3 +61,13 @@ def test_logleveltype_help():
     r = CliRunner().invoke(lvlcmd, ["--help"])
     assert r.exit_code == 0, r.output
     assert "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]" in r.output
+
+@pytest.mark.parametrize('value', [
+    "x",
+    "logging.INFO",
+    "VERBOSE",
+])
+def test_invalid_logleveltype(value):
+    r = CliRunner().invoke(lvlcmd, ["--log-level", value])
+    assert r.exit_code != 0, r.output
+    assert f"{value!r}: invalid log level" in r.output

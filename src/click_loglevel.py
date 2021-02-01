@@ -1,6 +1,15 @@
 """
 Log level parameter type for Click
 
+``click-loglevel`` provides a ``LogLevelType`` parameter type for use in Click_
+programs that wish to let the user set the logging level.  It accepts all of
+the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
+``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and converts them
+into their corresponding numeric values.  It also accepts integer values and
+leaves them as-is.
+
+.. _Click: https://palletsprojects.com/p/click/
+
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
@@ -12,6 +21,8 @@ __url__          = 'https://github.com/jwodder/click-loglevel'
 
 import logging
 import click
+
+__all__ = ['LogLevelType']
 
 class LogLevelType(click.ParamType):
     name = "log-level"

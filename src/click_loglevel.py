@@ -25,6 +25,12 @@ import click
 __all__ = ['LogLevelType']
 
 class LogLevelType(click.ParamType):
+    """
+    A Click parameter type that accepts the standard logging level names (case
+    insensitive) and converts them to their corresponding numeric values.  It
+    also accepts integer values and leaves them as-is.
+    """
+
     name = "log-level"
     LEVELS = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 

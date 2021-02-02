@@ -13,7 +13,7 @@ leaves them as-is.
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
-__version__      = '0.2.0.dev1'
+__version__      = '0.2.0'
 __author__       = 'John Thorvald Wodder II'
 __author_email__ = 'click-loglevel@varonathe.org'
 __license__      = 'MIT'

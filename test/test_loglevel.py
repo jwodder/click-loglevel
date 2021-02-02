@@ -2,15 +2,15 @@ import logging
 import click
 from   click.testing  import CliRunner
 import pytest
-from   click_loglevel import LogLevelType
+from   click_loglevel import LogLevel
 
 @click.command()
-@click.option('-l', '--log-level', type=LogLevelType(), default=logging.INFO)
+@click.option('-l', '--log-level', type=LogLevel(), default=logging.INFO)
 def lvlcmd(log_level):
     click.echo(repr(log_level))
 
 @click.command()
-@click.option('-l', '--log-level', type=LogLevelType())
+@click.option('-l', '--log-level', type=LogLevel())
 def lvlcmd_nodefault(log_level):
     click.echo(repr(log_level))
 
@@ -42,22 +42,22 @@ def lvlcmd_nodefault(log_level):
     (42, 42),
     (" 42 ", 42),
 ])
-def test_logleveltype(loglevel, value):
+def test_loglevel(loglevel, value):
     r = CliRunner().invoke(lvlcmd, ["-l", str(loglevel)])
     assert r.exit_code == 0, r.output
     assert r.output == str(value) + "\n"
 
-def test_logleveltype_default():
+def test_loglevel_default():
     r = CliRunner().invoke(lvlcmd)
     assert r.exit_code == 0, r.output
     assert r.output == str(logging.INFO) + "\n"
 
-def test_logleveltype_no_default():
+def test_loglevel_no_default():
     r = CliRunner().invoke(lvlcmd_nodefault)
     assert r.exit_code == 0, r.output
     assert r.output == "None\n"
 
-def test_logleveltype_help():
+def test_loglevel_help():
     r = CliRunner().invoke(lvlcmd, ["--help"])
     assert r.exit_code == 0, r.output
     assert "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]" in r.output
@@ -67,7 +67,7 @@ def test_logleveltype_help():
     "logging.INFO",
     "VERBOSE",
 ])
-def test_invalid_logleveltype(value):
+def test_invalid_loglevel(value):
     r = CliRunner().invoke(lvlcmd, ["--log-level", value])
     assert r.exit_code != 0, r.output
     assert f"{value!r}: invalid log level" in r.output

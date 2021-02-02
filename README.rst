@@ -20,8 +20,9 @@
 `GitHub <https://github.com/jwodder/click-loglevel>`_
 | `PyPI <https://pypi.org/project/click-loglevel/>`_
 | `Issues <https://github.com/jwodder/click-loglevel/issues>`_
+| `Changelog <https://github.com/jwodder/click-loglevel/blob/master/CHANGELOG.md>`_
 
-``click-loglevel`` provides a ``LogLevelType`` parameter type for use in Click_
+``click-loglevel`` provides a ``LogLevel`` parameter type for use in Click_
 programs that wish to let the user set the logging level.  It accepts all of
 the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
 ``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and converts them
@@ -49,10 +50,10 @@ Example
 
     import logging
     import click
-    from click_loglevel import LogLevelType
+    from click_loglevel import LogLevel
 
     @click.command()
-    @click.option("-l", "--log-level", type=LogLevelType(), default=logging.INFO)
+    @click.option("-l", "--log-level", type=LogLevel(), default=logging.INFO)
     def main(log_level):
         logging.basicConfig(
             format="%(asctime)s [%(levelname)-8s] %(name)s %(message)s",

@@ -18,6 +18,9 @@ jobs:
           - '3.8'
           - '3.9'
           - 'pypy3'
+        toxenv:
+          - py-click6
+          - py-click7
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -33,7 +36,7 @@ jobs:
           python -m pip install --upgrade --upgrade-strategy=eager tox
 
       - name: Run tests
-        run: tox -e py -- --cov-report=xml
+        run: tox -e ${{ matrix.toxenv }} -- --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1

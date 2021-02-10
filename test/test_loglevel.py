@@ -1,8 +1,13 @@
 import logging
+from   pathlib        import Path
+import subprocess
+import sys
 import click
 from   click.testing  import CliRunner
 import pytest
 from   click_loglevel import LogLevel
+
+DATA_DIR = Path(__file__).with_name("data")
 
 @click.command()
 @click.option('-l', '--log-level', type=LogLevel(), default=logging.INFO)
@@ -14,7 +19,7 @@ def lvlcmd(log_level):
 def lvlcmd_nodefault(log_level):
     click.echo(repr(log_level))
 
-@pytest.mark.parametrize('loglevel,value', [
+STANDARD_LEVELS = [
     ("CRITICAL", logging.CRITICAL),
     ("critical", logging.CRITICAL),
     ("cRiTiCaL", logging.CRITICAL),
@@ -41,7 +46,9 @@ def lvlcmd_nodefault(log_level):
     (logging.NOTSET, logging.NOTSET),
     (42, 42),
     (" 42 ", 42),
-])
+]
+
+@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS)
 def test_loglevel(loglevel, value):
     r = CliRunner().invoke(lvlcmd, ["-l", str(loglevel)])
     assert r.exit_code == 0, r.output
@@ -71,3 +78,106 @@ def test_invalid_loglevel(value):
     r = CliRunner().invoke(lvlcmd, ["--log-level", value])
     assert r.exit_code != 0, r.output
     assert f"{value!r}: invalid log level" in r.output
+
+@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS + [
+    ("VERBOSE", 15),
+    ("verbose", 15),
+    ("VeRbOsE", 15),
+    ("NOTICE", 25),
+    ("notice", 25),
+    ("nOtIcE", 25),
+])
+@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+def test_loglevel_extra(loglevel, value, script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode == 0
+    assert r.stdout == str(value) + "\n"
+
+@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+def test_loglevel_extra_help(script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--help"],
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode == 0
+    assert (
+        "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL|VERBOSE|NOTICE]"
+        in r.stdout
+    )
+
+@pytest.mark.parametrize('value', [
+    "x",
+    "logging.INFO",
+    "VERBATIM",
+])
+@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+def test_invalid_loglevel_extra(value, script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--log-level", value],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode != 0
+    assert f"{value!r}: invalid log level" in r.stderr
+
+@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS + [
+    ("VERBOSE", 15),
+    ("verbose", 15),
+    ("VeRbOsE", 15),
+    ("NOTICE", 25),
+    ("notice", 25),
+    ("nOtIcE", 25),
+])
+@pytest.mark.parametrize('script', [
+    "list-extra-nonupper.py",
+    "dict-extra-nonupper.py",
+])
+def test_loglevel_extra_nonupper(loglevel, value, script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode == 0
+    assert r.stdout == str(value) + "\n"
+
+@pytest.mark.parametrize('script', [
+    "list-extra-nonupper.py",
+    "dict-extra-nonupper.py",
+])
+def test_loglevel_extra_nonupper_help(script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--help"],
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode == 0
+    assert (
+        "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL|Verbose|Notice]"
+        in r.stdout
+    )
+
+@pytest.mark.parametrize('value', [
+    "x",
+    "logging.INFO",
+    "VERBATIM",
+])
+@pytest.mark.parametrize('script', [
+    "list-extra-nonupper.py",
+    "dict-extra-nonupper.py",
+])
+def test_invalid_loglevel_extra_nonupper(value, script):
+    r = subprocess.run(
+        [sys.executable, str(DATA_DIR / script), "--log-level", value],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    assert r.returncode != 0
+    assert f"{value!r}: invalid log level" in r.stderr

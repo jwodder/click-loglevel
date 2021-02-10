@@ -1,5 +1,5 @@
-v0.3.0 (in development)
------------------------
+v0.3.0 (2021-02-10)
+-------------------
 - Support & test against Click 6
 - Support custom log levels
 

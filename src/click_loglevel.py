@@ -66,7 +66,7 @@ class LogLevel(click.ParamType):
             except KeyError:
                 self.fail(f"{value!r}: invalid log level", param, ctx)
 
-    def get_metavar(self, param):
+    def get_metavar(self, _param):
         return self.metavar
 
 

@@ -21,6 +21,7 @@ jobs:
         toxenv:
           - py-click6
           - py-click7
+          - py-click8
     steps:
       - name: Check out repository
         uses: actions/checkout@v2

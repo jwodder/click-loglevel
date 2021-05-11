@@ -1,3 +1,7 @@
+v0.4.0 (in development)
+-----------------------
+- Support & test against Click 8
+
 v0.3.0 (2021-02-10)
 -------------------
 - Support & test against Click 6

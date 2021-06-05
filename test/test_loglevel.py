@@ -181,3 +181,44 @@ def test_invalid_loglevel_extra_nonupper(value, script):
     )
     assert r.returncode != 0
     assert f"{value!r}: invalid log level" in r.stderr
+
+@pytest.mark.parametrize("incomplete,completions", [
+    ("IN", ["INFO"]),
+    ("in", ["INFO"]),
+    ("In", ["INFO"]),
+    ("info", ["INFO"]),
+    ("i", ["INFO"]),
+    ("w", ["WARNING"]),
+    ("n", ["NOTSET"]),
+    ("D", ["DEBUG"]),
+    ("E", ["ERROR"]),
+    ("c", ["CRITICAL"]),
+    ("Q", []),
+    ("v", []),
+    ("INFOS", []),
+])
+def test_get_completions(incomplete, completions):
+    ll = LogLevel()
+    assert list(ll.get_completions(incomplete)) == completions
+
+@pytest.mark.parametrize("incomplete,completions", [
+    ("IN", ["INFO"]),
+    ("in", ["INFO"]),
+    ("In", ["INFO"]),
+    ("info", ["INFO"]),
+    ("i", ["INFO"]),
+    ("w", ["WARNING"]),
+    ("n", ["NOTSET", "NOTICE"]),
+    ("NOT", ["NOTSET", "NOTICE"]),
+    ("NOTS", ["NOTSET"]),
+    ("NOTI", ["NOTICE"]),
+    ("D", ["DEBUG"]),
+    ("E", ["ERROR"]),
+    ("c", ["CRITICAL"]),
+    ("Q", []),
+    ("v", ["VERBOSE"]),
+    ("INFOS", []),
+])
+def test_get_completions_extra(incomplete, completions):
+    ll = LogLevel(extra={"Verbose": 5, "Notice": 25})
+    assert list(ll.get_completions(incomplete)) == completions

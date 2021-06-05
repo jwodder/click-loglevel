@@ -69,5 +69,15 @@ class LogLevel(click.ParamType):
     def get_metavar(self, _param):
         return self.metavar
 
+    def shell_complete(self, _ctx, _param, incomplete):
+        from click.shell_completion import CompletionItem
+        return [CompletionItem(c) for c in self.get_completions(incomplete)]
+
+    def get_completions(self, incomplete):
+        incomplete = incomplete.upper()
+        for lv in self.levels:
+            if lv.startswith(incomplete):
+                yield lv
+
 
 LogLevelType = LogLevel

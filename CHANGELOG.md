@@ -1,5 +1,5 @@
-v0.4.0 (in development)
------------------------
+v0.4.0 (2021-06-05)
+-------------------
 - Support & test against Click 8
 - Support shell completion in Click 8
 

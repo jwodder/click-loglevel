@@ -1,3 +1,7 @@
+v0.4.0.post1 (in development)
+-----------------------
+- Update docs to mention shell completion
+
 v0.4.0 (2021-06-05)
 -------------------
 - Support & test against Click 8

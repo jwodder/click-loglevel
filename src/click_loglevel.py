@@ -8,12 +8,15 @@ the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
 into their corresponding numeric values.  It also accepts integer values and
 leaves them as-is.  Custom log levels are also supported.
 
+Starting in version 0.4.0, if you're using this package with Click 8, shell
+completion of log level names (both built-in and custom) is also supported.
+
 .. _Click: https://palletsprojects.com/p/click/
 
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
-__version__      = '0.4.0'
+__version__      = '0.4.0.post1'
 __author__       = 'John Thorvald Wodder II'
 __author_email__ = 'click-loglevel@varonathe.org'
 __license__      = 'MIT'

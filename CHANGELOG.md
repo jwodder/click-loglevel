@@ -1,5 +1,5 @@
-v0.4.0.post1 (in development)
------------------------
+v0.4.0.post1 (2021-06-05)
+-------------------------
 - Update docs to mention shell completion
 
 v0.4.0 (2021-06-05)

@@ -16,17 +16,18 @@ completion of log level names (both built-in and custom) is also supported.
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
-__version__      = '0.4.0.post1'
-__author__       = 'John Thorvald Wodder II'
-__author_email__ = 'click-loglevel@varonathe.org'
-__license__      = 'MIT'
-__url__          = 'https://github.com/jwodder/click-loglevel'
+__version__ = "0.4.0.post1"
+__author__ = "John Thorvald Wodder II"
+__author_email__ = "click-loglevel@varonathe.org"
+__license__ = "MIT"
+__url__ = "https://github.com/jwodder/click-loglevel"
 
-from   collections.abc import Mapping
+from collections.abc import Mapping
 import logging
 import click
 
-__all__ = ['LogLevel', 'LogLevelType']
+__all__ = ["LogLevel", "LogLevelType"]
+
 
 class LogLevel(click.ParamType):
     """
@@ -74,6 +75,7 @@ class LogLevel(click.ParamType):
 
     def shell_complete(self, _ctx, _param, incomplete):
         from click.shell_completion import CompletionItem
+
         return [CompletionItem(c) for c in self.get_completions(incomplete)]
 
     def get_completions(self, incomplete):

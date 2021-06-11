@@ -1,23 +1,26 @@
 import logging
-from   pathlib        import Path
+from pathlib import Path
 import subprocess
 import sys
 import click
-from   click.testing  import CliRunner
+from click.testing import CliRunner
 import pytest
-from   click_loglevel import LogLevel
+from click_loglevel import LogLevel
 
 DATA_DIR = Path(__file__).with_name("data")
 
+
 @click.command()
-@click.option('-l', '--log-level', type=LogLevel(), default=logging.INFO)
+@click.option("-l", "--log-level", type=LogLevel(), default=logging.INFO)
 def lvlcmd(log_level):
     click.echo(repr(log_level))
 
+
 @click.command()
-@click.option('-l', '--log-level', type=LogLevel())
+@click.option("-l", "--log-level", type=LogLevel())
 def lvlcmd_nodefault(log_level):
     click.echo(repr(log_level))
+
 
 STANDARD_LEVELS = [
     ("CRITICAL", logging.CRITICAL),
@@ -48,46 +51,59 @@ STANDARD_LEVELS = [
     (" 42 ", 42),
 ]
 
-@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS)
+
+@pytest.mark.parametrize("loglevel,value", STANDARD_LEVELS)
 def test_loglevel(loglevel, value):
     r = CliRunner().invoke(lvlcmd, ["-l", str(loglevel)])
     assert r.exit_code == 0, r.output
     assert r.output == str(value) + "\n"
+
 
 def test_loglevel_default():
     r = CliRunner().invoke(lvlcmd)
     assert r.exit_code == 0, r.output
     assert r.output == str(logging.INFO) + "\n"
 
+
 def test_loglevel_no_default():
     r = CliRunner().invoke(lvlcmd_nodefault)
     assert r.exit_code == 0, r.output
     assert r.output == "None\n"
+
 
 def test_loglevel_help():
     r = CliRunner().invoke(lvlcmd, ["--help"])
     assert r.exit_code == 0, r.output
     assert "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]" in r.output
 
-@pytest.mark.parametrize('value', [
-    "x",
-    "logging.INFO",
-    "VERBOSE",
-])
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "x",
+        "logging.INFO",
+        "VERBOSE",
+    ],
+)
 def test_invalid_loglevel(value):
     r = CliRunner().invoke(lvlcmd, ["--log-level", value])
     assert r.exit_code != 0, r.output
     assert f"{value!r}: invalid log level" in r.output
 
-@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS + [
-    ("VERBOSE", 15),
-    ("verbose", 15),
-    ("VeRbOsE", 15),
-    ("NOTICE", 25),
-    ("notice", 25),
-    ("nOtIcE", 25),
-])
-@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+
+@pytest.mark.parametrize(
+    "loglevel,value",
+    STANDARD_LEVELS
+    + [
+        ("VERBOSE", 15),
+        ("verbose", 15),
+        ("VeRbOsE", 15),
+        ("NOTICE", 25),
+        ("notice", 25),
+        ("nOtIcE", 25),
+    ],
+)
+@pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
 def test_loglevel_extra(loglevel, value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
@@ -97,7 +113,8 @@ def test_loglevel_extra(loglevel, value, script):
     assert r.returncode == 0
     assert r.stdout == str(value) + "\n"
 
-@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+
+@pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
 def test_loglevel_extra_help(script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
@@ -110,12 +127,16 @@ def test_loglevel_extra_help(script):
         in r.stdout
     )
 
-@pytest.mark.parametrize('value', [
-    "x",
-    "logging.INFO",
-    "VERBATIM",
-])
-@pytest.mark.parametrize('script', ["list-extra.py", "dict-extra.py"])
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "x",
+        "logging.INFO",
+        "VERBATIM",
+    ],
+)
+@pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
 def test_invalid_loglevel_extra(value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
@@ -126,18 +147,26 @@ def test_invalid_loglevel_extra(value, script):
     assert r.returncode != 0
     assert f"{value!r}: invalid log level" in r.stderr
 
-@pytest.mark.parametrize('loglevel,value', STANDARD_LEVELS + [
-    ("VERBOSE", 15),
-    ("verbose", 15),
-    ("VeRbOsE", 15),
-    ("NOTICE", 25),
-    ("notice", 25),
-    ("nOtIcE", 25),
-])
-@pytest.mark.parametrize('script', [
-    "list-extra-nonupper.py",
-    "dict-extra-nonupper.py",
-])
+
+@pytest.mark.parametrize(
+    "loglevel,value",
+    STANDARD_LEVELS
+    + [
+        ("VERBOSE", 15),
+        ("verbose", 15),
+        ("VeRbOsE", 15),
+        ("NOTICE", 25),
+        ("notice", 25),
+        ("nOtIcE", 25),
+    ],
+)
+@pytest.mark.parametrize(
+    "script",
+    [
+        "list-extra-nonupper.py",
+        "dict-extra-nonupper.py",
+    ],
+)
 def test_loglevel_extra_nonupper(loglevel, value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
@@ -147,10 +176,14 @@ def test_loglevel_extra_nonupper(loglevel, value, script):
     assert r.returncode == 0
     assert r.stdout == str(value) + "\n"
 
-@pytest.mark.parametrize('script', [
-    "list-extra-nonupper.py",
-    "dict-extra-nonupper.py",
-])
+
+@pytest.mark.parametrize(
+    "script",
+    [
+        "list-extra-nonupper.py",
+        "dict-extra-nonupper.py",
+    ],
+)
 def test_loglevel_extra_nonupper_help(script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
@@ -163,15 +196,22 @@ def test_loglevel_extra_nonupper_help(script):
         in r.stdout
     )
 
-@pytest.mark.parametrize('value', [
-    "x",
-    "logging.INFO",
-    "VERBATIM",
-])
-@pytest.mark.parametrize('script', [
-    "list-extra-nonupper.py",
-    "dict-extra-nonupper.py",
-])
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "x",
+        "logging.INFO",
+        "VERBATIM",
+    ],
+)
+@pytest.mark.parametrize(
+    "script",
+    [
+        "list-extra-nonupper.py",
+        "dict-extra-nonupper.py",
+    ],
+)
 def test_invalid_loglevel_extra_nonupper(value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
@@ -182,43 +222,51 @@ def test_invalid_loglevel_extra_nonupper(value, script):
     assert r.returncode != 0
     assert f"{value!r}: invalid log level" in r.stderr
 
-@pytest.mark.parametrize("incomplete,completions", [
-    ("IN", ["INFO"]),
-    ("in", ["INFO"]),
-    ("In", ["INFO"]),
-    ("info", ["INFO"]),
-    ("i", ["INFO"]),
-    ("w", ["WARNING"]),
-    ("n", ["NOTSET"]),
-    ("D", ["DEBUG"]),
-    ("E", ["ERROR"]),
-    ("c", ["CRITICAL"]),
-    ("Q", []),
-    ("v", []),
-    ("INFOS", []),
-])
+
+@pytest.mark.parametrize(
+    "incomplete,completions",
+    [
+        ("IN", ["INFO"]),
+        ("in", ["INFO"]),
+        ("In", ["INFO"]),
+        ("info", ["INFO"]),
+        ("i", ["INFO"]),
+        ("w", ["WARNING"]),
+        ("n", ["NOTSET"]),
+        ("D", ["DEBUG"]),
+        ("E", ["ERROR"]),
+        ("c", ["CRITICAL"]),
+        ("Q", []),
+        ("v", []),
+        ("INFOS", []),
+    ],
+)
 def test_get_completions(incomplete, completions):
     ll = LogLevel()
     assert list(ll.get_completions(incomplete)) == completions
 
-@pytest.mark.parametrize("incomplete,completions", [
-    ("IN", ["INFO"]),
-    ("in", ["INFO"]),
-    ("In", ["INFO"]),
-    ("info", ["INFO"]),
-    ("i", ["INFO"]),
-    ("w", ["WARNING"]),
-    ("n", ["NOTSET", "NOTICE"]),
-    ("NOT", ["NOTSET", "NOTICE"]),
-    ("NOTS", ["NOTSET"]),
-    ("NOTI", ["NOTICE"]),
-    ("D", ["DEBUG"]),
-    ("E", ["ERROR"]),
-    ("c", ["CRITICAL"]),
-    ("Q", []),
-    ("v", ["VERBOSE"]),
-    ("INFOS", []),
-])
+
+@pytest.mark.parametrize(
+    "incomplete,completions",
+    [
+        ("IN", ["INFO"]),
+        ("in", ["INFO"]),
+        ("In", ["INFO"]),
+        ("info", ["INFO"]),
+        ("i", ["INFO"]),
+        ("w", ["WARNING"]),
+        ("n", ["NOTSET", "NOTICE"]),
+        ("NOT", ["NOTSET", "NOTICE"]),
+        ("NOTS", ["NOTSET"]),
+        ("NOTI", ["NOTICE"]),
+        ("D", ["DEBUG"]),
+        ("E", ["ERROR"]),
+        ("c", ["CRITICAL"]),
+        ("Q", []),
+        ("v", ["VERBOSE"]),
+        ("INFOS", []),
+    ],
+)
 def test_get_completions_extra(incomplete, completions):
     ll = LogLevel(extra={"Verbose": 5, "Notice": 25})
     assert list(ll.get_completions(incomplete)) == completions

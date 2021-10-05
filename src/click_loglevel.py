@@ -16,7 +16,7 @@ completion of log level names (both built-in and custom) is also supported.
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
-__version__ = "0.4.0.post1"
+__version__ = "0.5.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"

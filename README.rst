@@ -13,6 +13,10 @@
 .. image:: https://img.shields.io/pypi/pyversions/click-loglevel.svg
     :target: https://pypi.org/project/click-loglevel/
 
+.. image:: https://img.shields.io/conda/vn/conda-forge/click-loglevel.svg
+    :target: https://anaconda.org/conda-forge/click-loglevel
+    :alt: Conda Version
+
 .. image:: https://img.shields.io/github/license/jwodder/click-loglevel.svg
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License

@@ -41,7 +41,7 @@ completion of log level names (both built-in and custom) is also supported.
 
 Installation
 ============
-``click-loglevel`` requires Python 3.6 or higher.  Just use `pip
+``click-loglevel`` requires Python 3.7 or higher.  Just use `pip
 <https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install
 ``click-loglevel`` and its dependencies::
 

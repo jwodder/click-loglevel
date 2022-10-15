@@ -108,7 +108,7 @@ def test_loglevel_extra(loglevel, value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode == 0
     assert r.stdout == str(value) + "\n"
@@ -119,7 +119,7 @@ def test_loglevel_extra_help(script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode == 0
     assert (
@@ -142,7 +142,7 @@ def test_invalid_loglevel_extra(value, script):
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode != 0
     assert f"{value!r}: invalid log level" in r.stderr
@@ -171,7 +171,7 @@ def test_loglevel_extra_nonupper(loglevel, value, script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode == 0
     assert r.stdout == str(value) + "\n"
@@ -188,7 +188,7 @@ def test_loglevel_extra_nonupper_help(script):
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode == 0
     assert (
@@ -217,7 +217,7 @@ def test_invalid_loglevel_extra_nonupper(value, script):
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
     assert r.returncode != 0
     assert f"{value!r}: invalid log level" in r.stderr

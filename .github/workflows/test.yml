@@ -30,8 +30,6 @@ jobs:
           - 'pypy-3.9'
           - 'pypy-3.10'
         toxenv:
-          - py-click6
-          - py-click7
           - py-click8
         include:
           - python-version: '3.7'

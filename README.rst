@@ -33,8 +33,8 @@ the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
 into their corresponding numeric values.  It also accepts integer values and
 leaves them as-is.  Custom log levels are also supported.
 
-Starting in version 0.4.0, if you're using this package with Click 8, shell
-completion of log level names (both built-in and custom) is also supported.
+Starting in version 0.4.0, shell completion of log level names (both built-in
+and custom) is also supported.
 
 .. _Click: https://palletsprojects.com/p/click/
 
@@ -42,8 +42,7 @@ completion of log level names (both built-in and custom) is also supported.
 Installation
 ============
 ``click-loglevel`` requires Python 3.7 or higher.  Just use `pip
-<https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install
-``click-loglevel`` and its dependencies::
+<https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install it::
 
     python3 -m pip install click-loglevel
 

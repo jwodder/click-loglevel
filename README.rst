@@ -58,14 +58,23 @@ Examples
     import click
     from click_loglevel import LogLevel
 
+
     @click.command()
-    @click.option("-l", "--log-level", type=LogLevel(), default=logging.INFO)
+    @click.option(
+        "-l",
+        "--log-level",
+        type=LogLevel(),
+        default="INFO",
+        help="Set logging level",
+        show_default=True,
+    )
     def main(log_level: int) -> None:
         logging.basicConfig(
             format="[%(levelname)-8s] %(message)s",
             level=log_level,
         )
         logging.log(log_level, "Log level set to %r", log_level)
+
 
     if __name__ == "__main__":
         main()
@@ -74,6 +83,8 @@ Running ``myscript.py``:
 
 .. code:: console
 
+    $ python3 myscript.py
+    [INFO    ] Log level set to 20
     $ python3 myscript.py --log-level DEBUG
     [DEBUG   ] Log level set to 10
     $ python3 myscript.py --log-level error
@@ -89,14 +100,19 @@ Script with custom log levels:
     import click
     from click_loglevel import LogLevel
 
+
     logging.addLevelName(15, "VERBOSE")
     logging.addLevelName(25, "NOTICE")
 
+
     @click.command()
     @click.option(
-        "-l", "--log-level",
+        "-l",
+        "--log-level",
         type=LogLevel(extra=["VERBOSE", "NOTICE"]),
-        default=logging.INFO,
+        default="INFO",
+        help="Set logging level",
+        show_default=True,
     )
     def main(log_level: int) -> None:
         logging.basicConfig(
@@ -104,6 +120,7 @@ Script with custom log levels:
             level=log_level,
         )
         logging.log(log_level, "Log level set to %r", log_level)
+
 
     if __name__ == "__main__":
         main()

@@ -1,5 +1,5 @@
-v0.5.0 (in development)
------------------------
+v0.5.0 (2023-10-09)
+-------------------
 - Support Python 3.10, 3.11, and 3.12
 - Drop support for Python 3.6
 - Require Click >= 8.0

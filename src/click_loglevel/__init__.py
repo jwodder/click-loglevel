@@ -8,23 +8,25 @@ the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
 into their corresponding numeric values.  It also accepts integer values and
 leaves them as-is.  Custom log levels are also supported.
 
-Starting in version 0.4.0, if you're using this package with Click 8, shell
-completion of log level names (both built-in and custom) is also supported.
+Starting in version 0.4.0, shell completion of log level names (both built-in
+and custom) is also supported.
 
 .. _Click: https://palletsprojects.com/p/click/
 
 Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
+from __future__ import annotations
+from collections.abc import Iterable, Iterator, Mapping
+import logging
+import click
+from click.shell_completion import CompletionItem
+
 __version__ = "0.5.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"
 __url__ = "https://github.com/jwodder/click-loglevel"
-
-from collections.abc import Mapping
-import logging
-import click
 
 __all__ = ["LogLevel", "LogLevelType"]
 
@@ -47,8 +49,8 @@ class LogLevel(click.ParamType):
     name = "log-level"
     LEVELS = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
-    def __init__(self, extra=None):
-        self.levels = {lv: getattr(logging, lv) for lv in self.LEVELS}
+    def __init__(self, extra: Iterable[str] | Mapping[str, int] | None = None) -> None:
+        self.levels: dict[str, int] = {lv: getattr(logging, lv) for lv in self.LEVELS}
         level_names = list(self.LEVELS)
         if extra is not None:
             if isinstance(extra, Mapping):
@@ -61,24 +63,27 @@ class LogLevel(click.ParamType):
                     level_names.append(lv)
         self.metavar = "[" + "|".join(level_names) + "]"
 
-    def convert(self, value, param, ctx):
+    def convert(
+        self, value: str | int, param: click.Parameter | None, ctx: click.Context | None
+    ) -> int:
         try:
             return int(value)
         except ValueError:
+            assert isinstance(value, str)
             try:
                 return self.levels[value.upper()]
             except KeyError:
                 self.fail(f"{value!r}: invalid log level", param, ctx)
 
-    def get_metavar(self, _param):
+    def get_metavar(self, _param: click.Parameter) -> str:
         return self.metavar
 
-    def shell_complete(self, _ctx, _param, incomplete):
-        from click.shell_completion import CompletionItem
-
+    def shell_complete(
+        self, _ctx: click.Context, _param: click.Parameter, incomplete: str
+    ) -> list[CompletionItem]:
         return [CompletionItem(c) for c in self.get_completions(incomplete)]
 
-    def get_completions(self, incomplete):
+    def get_completions(self, incomplete: str) -> Iterator[str]:
         incomplete = incomplete.upper()
         for lv in self.levels:
             if lv.startswith(incomplete):

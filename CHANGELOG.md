@@ -2,6 +2,8 @@ v0.5.0 (in development)
 -----------------------
 - Support Python 3.10, 3.11, and 3.12
 - Drop support for Python 3.6
+- Require Click >= 8.0
+- Add type annotations
 
 v0.4.0.post1 (2021-06-05)
 -------------------------

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 from pathlib import Path
 import subprocess
@@ -12,13 +13,13 @@ DATA_DIR = Path(__file__).with_name("data")
 
 @click.command()
 @click.option("-l", "--log-level", type=LogLevel(), default=logging.INFO)
-def lvlcmd(log_level):
+def lvlcmd(log_level: int) -> None:
     click.echo(repr(log_level))
 
 
 @click.command()
 @click.option("-l", "--log-level", type=LogLevel())
-def lvlcmd_nodefault(log_level):
+def lvlcmd_nodefault(log_level: int) -> None:
     click.echo(repr(log_level))
 
 
@@ -53,25 +54,25 @@ STANDARD_LEVELS = [
 
 
 @pytest.mark.parametrize("loglevel,value", STANDARD_LEVELS)
-def test_loglevel(loglevel, value):
+def test_loglevel(loglevel: str | int, value: int) -> None:
     r = CliRunner().invoke(lvlcmd, ["-l", str(loglevel)])
     assert r.exit_code == 0, r.output
     assert r.output == str(value) + "\n"
 
 
-def test_loglevel_default():
+def test_loglevel_default() -> None:
     r = CliRunner().invoke(lvlcmd)
     assert r.exit_code == 0, r.output
     assert r.output == str(logging.INFO) + "\n"
 
 
-def test_loglevel_no_default():
+def test_loglevel_no_default() -> None:
     r = CliRunner().invoke(lvlcmd_nodefault)
     assert r.exit_code == 0, r.output
     assert r.output == "None\n"
 
 
-def test_loglevel_help():
+def test_loglevel_help() -> None:
     r = CliRunner().invoke(lvlcmd, ["--help"])
     assert r.exit_code == 0, r.output
     assert "--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]" in r.output
@@ -85,7 +86,7 @@ def test_loglevel_help():
         "VERBOSE",
     ],
 )
-def test_invalid_loglevel(value):
+def test_invalid_loglevel(value: str) -> None:
     r = CliRunner().invoke(lvlcmd, ["--log-level", value])
     assert r.exit_code != 0, r.output
     assert f"{value!r}: invalid log level" in r.output
@@ -104,7 +105,7 @@ def test_invalid_loglevel(value):
     ],
 )
 @pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
-def test_loglevel_extra(loglevel, value, script):
+def test_loglevel_extra(loglevel: str | int, value: int, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
         stdout=subprocess.PIPE,
@@ -115,7 +116,7 @@ def test_loglevel_extra(loglevel, value, script):
 
 
 @pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
-def test_loglevel_extra_help(script):
+def test_loglevel_extra_help(script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
         stdout=subprocess.PIPE,
@@ -137,7 +138,7 @@ def test_loglevel_extra_help(script):
     ],
 )
 @pytest.mark.parametrize("script", ["list-extra.py", "dict-extra.py"])
-def test_invalid_loglevel_extra(value, script):
+def test_invalid_loglevel_extra(value: str, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
         stdout=subprocess.PIPE,
@@ -167,7 +168,7 @@ def test_invalid_loglevel_extra(value, script):
         "dict-extra-nonupper.py",
     ],
 )
-def test_loglevel_extra_nonupper(loglevel, value, script):
+def test_loglevel_extra_nonupper(loglevel: str | int, value: int, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", str(loglevel)],
         stdout=subprocess.PIPE,
@@ -184,7 +185,7 @@ def test_loglevel_extra_nonupper(loglevel, value, script):
         "dict-extra-nonupper.py",
     ],
 )
-def test_loglevel_extra_nonupper_help(script):
+def test_loglevel_extra_nonupper_help(script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--help"],
         stdout=subprocess.PIPE,
@@ -212,7 +213,7 @@ def test_loglevel_extra_nonupper_help(script):
         "dict-extra-nonupper.py",
     ],
 )
-def test_invalid_loglevel_extra_nonupper(value, script):
+def test_invalid_loglevel_extra_nonupper(value: str, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
         stdout=subprocess.PIPE,
@@ -241,7 +242,7 @@ def test_invalid_loglevel_extra_nonupper(value, script):
         ("INFOS", []),
     ],
 )
-def test_get_completions(incomplete, completions):
+def test_get_completions(incomplete: str, completions: list[str]) -> None:
     ll = LogLevel()
     assert list(ll.get_completions(incomplete)) == completions
 
@@ -267,6 +268,6 @@ def test_get_completions(incomplete, completions):
         ("INFOS", []),
     ],
 )
-def test_get_completions_extra(incomplete, completions):
+def test_get_completions_extra(incomplete: str, completions: list[str]) -> None:
     ll = LogLevel(extra={"Verbose": 5, "Notice": 25})
     assert list(ll.get_completions(incomplete)) == completions

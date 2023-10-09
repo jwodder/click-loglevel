@@ -8,7 +8,7 @@ logging.addLevelName(25, "NOTICE")
 
 @click.command()
 @click.option("-l", "--log-level", type=LogLevel(extra=["VERBOSE", "NOTICE"]))
-def main(log_level):
+def main(log_level: int) -> None:
     click.echo(repr(log_level))
 
 

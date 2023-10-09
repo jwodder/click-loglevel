@@ -60,7 +60,7 @@ Examples
 
     @click.command()
     @click.option("-l", "--log-level", type=LogLevel(), default=logging.INFO)
-    def main(log_level):
+    def main(log_level: int) -> None:
         logging.basicConfig(
             format="[%(levelname)-8s] %(message)s",
             level=log_level,
@@ -98,7 +98,7 @@ Script with custom log levels:
         type=LogLevel(extra=["VERBOSE", "NOTICE"]),
         default=logging.INFO,
     )
-    def main(log_level):
+    def main(log_level: int) -> None:
         logging.basicConfig(
             format="[%(levelname)-8s] %(message)s",
             level=log_level,

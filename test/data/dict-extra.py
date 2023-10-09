@@ -9,7 +9,7 @@ from click_loglevel import LogLevel
     "--log-level",
     type=LogLevel(extra={"VERBOSE": 15, "NOTICE": 25}),
 )
-def main(log_level):
+def main(log_level: int) -> None:
     click.echo(repr(log_level))
 
 

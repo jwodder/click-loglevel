@@ -28,7 +28,7 @@ __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"
 __url__ = "https://github.com/jwodder/click-loglevel"
 
-__all__ = ["LogLevel", "LogLevelType"]
+__all__ = ["LogLevel"]
 
 
 class LogLevel(click.ParamType):
@@ -88,6 +88,3 @@ class LogLevel(click.ParamType):
         for lv in self.levels:
             if lv.startswith(incomplete):
                 yield lv
-
-
-LogLevelType = LogLevel

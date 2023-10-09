@@ -4,6 +4,7 @@ v0.5.0 (in development)
 - Drop support for Python 3.6
 - Require Click >= 8.0
 - Add type annotations
+- Remove `LogLevelType` alias
 
 v0.4.0.post1 (2021-06-05)
 -------------------------

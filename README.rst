@@ -1,23 +1,25 @@
-.. image:: https://www.repostatus.org/badges/latest/active.svg
+|repostatus| |ci-status| |coverage| |pyversions| |conda| |license|
+
+.. |repostatus| image:: https://www.repostatus.org/badges/latest/active.svg
     :target: https://www.repostatus.org/#active
     :alt: Project Status: Active — The project has reached a stable, usable
           state and is being actively developed.
 
-.. image:: https://github.com/jwodder/click-loglevel/actions/workflows/test.yml/badge.svg
+.. |ci-status| image:: https://github.com/jwodder/click-loglevel/actions/workflows/test.yml/badge.svg
     :target: https://github.com/jwodder/click-loglevel/actions/workflows/test.yml
     :alt: CI Status
 
-.. image:: https://codecov.io/gh/jwodder/click-loglevel/branch/master/graph/badge.svg
+.. |coverage| image:: https://codecov.io/gh/jwodder/click-loglevel/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/jwodder/click-loglevel
 
-.. image:: https://img.shields.io/pypi/pyversions/click-loglevel.svg
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/click-loglevel.svg
     :target: https://pypi.org/project/click-loglevel/
 
-.. image:: https://img.shields.io/conda/vn/conda-forge/click-loglevel.svg
+.. |conda| image:: https://img.shields.io/conda/vn/conda-forge/click-loglevel.svg
     :target: https://anaconda.org/conda-forge/click-loglevel
     :alt: Conda Version
 
-.. image:: https://img.shields.io/github/license/jwodder/click-loglevel.svg
+.. |license| image:: https://img.shields.io/github/license/jwodder/click-loglevel.svg
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 

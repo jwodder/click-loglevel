@@ -28,17 +28,18 @@
 | `Issues <https://github.com/jwodder/click-loglevel/issues>`_
 | `Changelog <https://github.com/jwodder/click-loglevel/blob/master/CHANGELOG.md>`_
 
-``click-loglevel`` provides a ``LogLevel`` parameter type for use in Click_
-programs that wish to let the user set the logging level.  It accepts all of
-the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
-``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and converts them
-into their corresponding numeric values.  It also accepts integer values and
-leaves them as-is.  Custom log levels are also supported.
+``click-loglevel`` provides a ``LogLevel`` parameter type for use in Click_ and
+asyncclick_ programs that wish to let the user set the logging level.  It
+accepts all of the ``logging`` log level names (``CRITICAL``, ``ERROR``,
+``WARNING``, ``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and
+converts them into their corresponding numeric values.  It also accepts integer
+values and leaves them as-is.  Custom log levels are also supported.
 
 Starting in version 0.4.0, shell completion of log level names (both built-in
 and custom) is also supported.
 
 .. _Click: https://palletsprojects.com/p/click/
+.. _asyncclick: https://github.com/python-trio/asyncclick
 
 
 Installation

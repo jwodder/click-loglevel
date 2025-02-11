@@ -1,3 +1,8 @@
+v0.6.0 (in development)
+-----------------------
+- Add support for asyncclick (contributed by
+  [@kquinsland](https://github.com/kquinsland))
+
 v0.5.1 (2024-12-01)
 -------------------
 - Migrated from setuptools to hatch

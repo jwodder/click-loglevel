@@ -1,5 +1,5 @@
-v0.6.0 (in development)
------------------------
+v0.6.0 (2025-02-11)
+-------------------
 - Add support for asyncclick (contributed by
   [@kquinsland](https://github.com/kquinsland))
 

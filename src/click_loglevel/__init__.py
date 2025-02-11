@@ -48,6 +48,7 @@ class LogLevel(click.ParamType):
 
     name = "log-level"
     LEVELS = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    __name__ = name
 
     def __init__(self, extra: Iterable[str] | Mapping[str, int] | None = None) -> None:
         self.levels: dict[str, int] = {lv: getattr(logging, lv) for lv in self.LEVELS}

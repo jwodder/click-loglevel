@@ -22,7 +22,7 @@ import logging
 import click
 from click.shell_completion import CompletionItem
 
-__version__ = "0.6.0"
+__version__ = "0.6.1.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"
@@ -76,7 +76,9 @@ class LogLevel(click.ParamType):
             except KeyError:
                 self.fail(f"{value!r}: invalid log level", param, ctx)
 
-    def get_metavar(self, _param: click.Parameter) -> str:
+    def get_metavar(
+        self, param: click.Parameter, ctx: click.Context | None = None  # noqa: U100
+    ) -> str:
         return self.metavar
 
     def shell_complete(

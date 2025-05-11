@@ -1,3 +1,7 @@
+v0.6.1 (in development)
+-----------------------
+- Update for click v8.2.0
+
 v0.6.0 (2025-02-11)
 -------------------
 - Add support for asyncclick (contributed by

@@ -1,3 +1,8 @@
+v0.8.0 (in development)
+-----------------------
+- Support Python 3.14
+- Drop support for Python 3.8 and 3.9
+
 v0.7.0 (2025-10-28)
 -------------------
 - **Breaking**: In order to use `click-loglevel` with asyncclick, import the

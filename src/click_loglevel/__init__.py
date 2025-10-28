@@ -22,7 +22,7 @@ import click
 from click.shell_completion import CompletionItem
 from .core import LevelParser
 
-__version__ = "0.7.0.dev1"
+__version__ = "0.7.0"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"

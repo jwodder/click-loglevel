@@ -141,8 +141,7 @@ def test_loglevel_extra_help(script: str) -> None:
 def test_invalid_loglevel_extra(value: str, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
     assert r.returncode != 0
@@ -216,8 +215,7 @@ def test_loglevel_extra_nonupper_help(script: str) -> None:
 def test_invalid_loglevel_extra_nonupper(value: str, script: str) -> None:
     r = subprocess.run(
         [sys.executable, str(DATA_DIR / script), "--log-level", value],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
     assert r.returncode != 0

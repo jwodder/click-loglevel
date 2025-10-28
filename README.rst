@@ -28,12 +28,12 @@
 | `Issues <https://github.com/jwodder/click-loglevel/issues>`_
 | `Changelog <https://github.com/jwodder/click-loglevel/blob/master/CHANGELOG.md>`_
 
-``click-loglevel`` provides a ``LogLevel`` parameter type for use in Click_ and
-asyncclick_ programs that wish to let the user set the logging level.  It
-accepts all of the ``logging`` log level names (``CRITICAL``, ``ERROR``,
-``WARNING``, ``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and
-converts them into their corresponding numeric values.  It also accepts integer
-values and leaves them as-is.  Custom log levels are also supported.
+``click-loglevel`` provides a ``LogLevel`` parameter type for use in Click_
+programs that wish to let the user set the logging level.  It accepts all of
+the ``logging`` log level names (``CRITICAL``, ``ERROR``, ``WARNING``,
+``INFO``, ``DEBUG``, and ``NOTSET``, all case insensitive), and converts them
+into their corresponding numeric values.  It also accepts integer values and
+leaves them as-is.  Custom log levels are also supported.
 
 Starting in version 0.4.0, shell completion of log level names (both built-in
 and custom) is also supported.
@@ -132,8 +132,6 @@ Script with custom log levels:
 API
 ===
 
-The ``click_loglevel`` module contains a single class:
-
 ``LogLevel``
 ------------
 
@@ -148,3 +146,10 @@ calling ``logging.addLevelName()``) or a mapping from level names to their
 corresponding values.  All custom log levels will be recognized case
 insensitively; if two different level names differ only in case, the result is
 undefined.
+
+``AsyncLogLevel``
+-----------------
+
+Like ``LogLevel``, but for use with asyncclick_ instead of normal Click_.
+``AsyncLogLevel`` must be imported from the ``click_loglevel.asyncclick``
+module.

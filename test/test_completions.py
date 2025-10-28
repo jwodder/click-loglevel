@@ -1,6 +1,6 @@
 from __future__ import annotations
 import pytest
-from click_loglevel import LogLevel
+from click_loglevel.core import LevelParser
 
 
 @pytest.mark.parametrize(
@@ -22,8 +22,8 @@ from click_loglevel import LogLevel
     ],
 )
 def test_get_completions(incomplete: str, completions: list[str]) -> None:
-    ll = LogLevel()
-    assert list(ll.get_completions(incomplete)) == completions
+    parser = LevelParser()
+    assert list(parser.get_completions(incomplete)) == completions
 
 
 @pytest.mark.parametrize(
@@ -48,5 +48,5 @@ def test_get_completions(incomplete: str, completions: list[str]) -> None:
     ],
 )
 def test_get_completions_extra(incomplete: str, completions: list[str]) -> None:
-    ll = LogLevel(extra={"Verbose": 5, "Notice": 25})
-    assert list(ll.get_completions(incomplete)) == completions
+    parser = LevelParser(extra={"Verbose": 5, "Notice": 25})
+    assert list(parser.get_completions(incomplete)) == completions

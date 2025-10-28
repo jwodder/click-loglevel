@@ -1,13 +1,13 @@
 import logging
 import asyncclick as click
-from click_loglevel import LogLevel
+from click_loglevel.asyncclick import AsyncLogLevel
 
 
 @click.command()
 @click.option(
     "-l",
     "--log-level",
-    type=LogLevel(extra={"VERBOSE": 15, "NOTICE": 25}),
+    type=AsyncLogLevel(extra={"VERBOSE": 15, "NOTICE": 25}),
 )
 async def main(log_level: int) -> None:
     click.echo(repr(log_level))

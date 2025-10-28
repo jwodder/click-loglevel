@@ -1,3 +1,9 @@
+v0.7.0 (in development)
+-----------------------
+- **Breaking**: In order to use `click-loglevel` with asyncclick, import the
+  `AsyncLogLevel` class from `click_loglevel.asyncclick`.  (The plain
+  `LogLevel` class no longer supports asyncclick.)
+
 v0.6.1 (2025-05-11)
 -------------------
 - Update for click v8.2.0

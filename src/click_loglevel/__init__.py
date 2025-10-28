@@ -17,12 +17,12 @@ Visit <https://github.com/jwodder/click-loglevel> for more information.
 """
 
 from __future__ import annotations
-from collections.abc import Iterable, Iterator, Mapping
-import logging
+from collections.abc import Iterable, Mapping
 import click
 from click.shell_completion import CompletionItem
+from .core import LevelParser
 
-__version__ = "0.6.1"
+__version__ = "0.7.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "click-loglevel@varonathe.org"
 __license__ = "MIT"
@@ -47,22 +47,9 @@ class LogLevel(click.ParamType):
     """
 
     name = "log-level"
-    LEVELS = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    __name__ = name
 
     def __init__(self, extra: Iterable[str] | Mapping[str, int] | None = None) -> None:
-        self.levels: dict[str, int] = {lv: getattr(logging, lv) for lv in self.LEVELS}
-        level_names = list(self.LEVELS)
-        if extra is not None:
-            if isinstance(extra, Mapping):
-                for lv, value in extra.items():
-                    self.levels[lv.upper()] = value
-                level_names.extend(extra.keys())
-            else:
-                for lv in extra:
-                    self.levels[lv.upper()] = logging.getLevelName(lv)
-                    level_names.append(lv)
-        self.metavar = "[" + "|".join(level_names) + "]"
+        self.parser = LevelParser(extra)
 
     def convert(
         self, value: str | int, param: click.Parameter | None, ctx: click.Context | None
@@ -72,22 +59,16 @@ class LogLevel(click.ParamType):
         except ValueError:
             assert isinstance(value, str)
             try:
-                return self.levels[value.upper()]
+                return self.parser.parse(value)
             except KeyError:
                 self.fail(f"{value!r}: invalid log level", param, ctx)
 
     def get_metavar(
         self, param: click.Parameter, ctx: click.Context | None = None  # noqa: U100
     ) -> str:
-        return self.metavar
+        return self.parser.metavar
 
     def shell_complete(
         self, _ctx: click.Context, _param: click.Parameter, incomplete: str
     ) -> list[CompletionItem]:
-        return [CompletionItem(c) for c in self.get_completions(incomplete)]
-
-    def get_completions(self, incomplete: str) -> Iterator[str]:
-        incomplete = incomplete.upper()
-        for lv in self.levels:
-            if lv.startswith(incomplete):
-                yield lv
+        return [CompletionItem(c) for c in self.parser.get_completions(incomplete)]
